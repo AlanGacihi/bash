@@ -40,17 +40,12 @@ if [ "$1" == "-e" ]; then
     echo "encrypted file signed by sender private key"
 
     # zip files we need: encrypted file1, three encrypted symmetric key, and one encrypted file signature
-    zip "$7" file1.txt.enc symmetric.key.enc.1 symmetric.key.enc.2 symmetric.key.enc.3 file1.txt.enc.sign
+    zip -m "$7" file1.txt.enc symmetric.key.enc.1 symmetric.key.enc.2 symmetric.key.enc.3 file1.txt.enc.sign
 
     echo "files are zipped"
-    
+
     # remove files generated
     rm symmetric_keyfile.key
-    rm file1.txt.enc
-    rm symmetric.key.enc.1
-    rm symmetric.key.enc.2
-    rm symmetric.key.enc.3
-    rm file1.txt.enc.sign
 
 else
 
@@ -79,8 +74,8 @@ else
     echo "session key decrypted"
 
     # decrypt the text file with session key
-    openssl enc -aes-256-cbc -d -in file1.txt.enc -out "$5" -pbkdf2 -pass file:symmetric.key
-    
+    openssl enc -aes-256-cbc -d -in file1.txt.enc -out "$5" -pbkdf2 -pass file:symmetric.key 
+
     echo "file decrypted"
 
     # remove files generated
